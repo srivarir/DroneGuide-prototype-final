@@ -107,7 +107,7 @@ function Section({
 }
 
 /* ---------- 1. Opening ---------- */
-/* ---------- 1. Opening ---------- */
+
 
 function Opening() {
   const ref = useRef<HTMLDivElement>(null);
@@ -228,10 +228,10 @@ function Problem() {
               whileInView={{ opacity: 1, x: 0 }}
               viewport={{ once: true, margin: "-100px" }}
               transition={{ duration: 0.6, delay: idx * 0.08 }}
-              className="group flex items-baseline gap-6 border-t border-bone/10 pt-6"
+              className="group flex items-start gap-6 border-t border-bone/10 pt-6"
             >
               <div className="w-32 shrink-0 font-display text-4xl font-light text-moss md:text-5xl">{s.k}</div>
-              <p className="text-fog">{s.v}</p>
+              <p className="text-lg text-fog">{s.v}</p>
             </motion.div>
           ))}
         </div>
@@ -272,47 +272,47 @@ const challenges = [
 ];
 
 function Challenges() {
-  const [open, setOpen] = useState<number | null>(0);
   return (
-    <Section id="challenges" index="03" label="Current Reality"
-      title={<>Five pressures every council <em className="not-italic text-moss">already</em> knows.</>}
+    <Section
+      id="challenges"
+      index="03"
+      label="Current Reality"
+      title={
+        <>
+          Five pressures every council <em className="not-italic text-moss">already</em> knows.
+        </>
+      }
       className="bg-card/40"
     >
       <div className="grid gap-3">
         {challenges.map((c, idx) => {
           const Icon = c.icon;
-          const isOpen = open === idx;
           return (
-            <motion.button
+            <motion.div
               key={c.title}
-              onClick={() => setOpen(isOpen ? null : idx)}
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, margin: "-50px" }}
               transition={{ duration: 0.5, delay: idx * 0.05 }}
-              className="group grid grid-cols-[auto_1fr_auto] items-center gap-6 border-t border-bone/10 py-6 text-left transition-colors hover:bg-bone/5"
+              className="grid grid-cols-[auto_1fr_auto] gap-6 border-t border-bone/10 py-4"
             >
               <div className="flex h-12 w-12 items-center justify-center rounded-full border border-moss/30 bg-moss/5">
                 <Icon className="h-5 w-5 text-moss" />
               </div>
+
               <div>
-                <div className="font-display text-2xl font-light text-bone md:text-3xl">{c.title}</div>
-                <AnimatePresence initial={false}>
-                  {isOpen && (
-                    <motion.p
-                      initial={{ opacity: 0, height: 0, marginTop: 0 }}
-                      animate={{ opacity: 1, height: "auto", marginTop: 12 }}
-                      exit={{ opacity: 0, height: 0, marginTop: 0 }}
-                      transition={{ duration: 0.4 }}
-                      className="max-w-3xl text-fog"
-                    >
-                      {c.body}
-                    </motion.p>
-                  )}
-                </AnimatePresence>
+                <div className="font-display text-2xl font-light text-bone md:text-3xl">
+                  {c.title}
+                </div>
+                <p className="mt-3 max-w-3xl text-fog">
+                  {c.body}
+                </p>
               </div>
-              <span className="font-mono text-xs text-muted-foreground">0{idx + 1}</span>
-            </motion.button>
+
+              <span className="font-mono text-xs text-muted-foreground">
+                0{idx + 1}
+              </span>
+            </motion.div>
           );
         })}
       </div>
@@ -472,7 +472,7 @@ function Impact() {
                 <h3 className="font-display text-4xl font-light text-bone md:text-5xl">{it.t}</h3>
                 <p className="mt-4 max-w-md text-lg text-fog">{it.b}</p>
               </div>
-              <div className="relative aspect-[4/3] overflow-hidden rounded-sm">
+              <div className="relative aspect-[16/10] overflow-hidden rounded-sm">
                 <img src={it.img} alt="" className="h-full w-full object-cover" loading="lazy" />
                 <div className="absolute inset-0 bg-gradient-to-tr from-background/80 via-transparent to-transparent" />
               </div>

@@ -1,0 +1,106 @@
+{
+  "%23tanstack-start-plugin-adapters": {
+    "file": "assets/__23tanstack-start-plugin-adapters-Cwee5PKy.js",
+    "name": "__23tanstack-start-plugin-adapters",
+    "src": "%23tanstack-start-plugin-adapters",
+    "isDynamicEntry": true
+  },
+  "C:/Sham/Project/Waste management proposal/drone-sight-lines-main/src/styles.css": {
+    "file": "assets/styles-YbE8dYdW.css",
+    "src": "C:/Sham/Project/Waste management proposal/drone-sight-lines-main/src/styles.css"
+  },
+  "_server-CjynlEf_.js": {
+    "file": "assets/server-CjynlEf_.js",
+    "name": "server",
+    "isDynamicEntry": true,
+    "dynamicImports": [
+      "tanstack-start-manifest:v",
+      "src/router.tsx",
+      "src/start.ts",
+      "%23tanstack-start-plugin-adapters"
+    ]
+  },
+  "_worker-entry-CB0lP5kX.js": {
+    "file": "assets/worker-entry-CB0lP5kX.js",
+    "name": "worker-entry",
+    "dynamicImports": [
+      "_server-CjynlEf_.js"
+    ]
+  },
+  "src/assets/cleanup.jpg": {
+    "file": "assets/cleanup-PWriYMB6.jpg",
+    "src": "src/assets/cleanup.jpg"
+  },
+  "src/assets/drone-flight.jpg": {
+    "file": "assets/drone-flight-CeNTJyLD.jpg",
+    "src": "src/assets/drone-flight.jpg"
+  },
+  "src/assets/dump-site-1.jpg": {
+    "file": "assets/dump-site-1-Bu5jp0SF.jpg",
+    "src": "src/assets/dump-site-1.jpg"
+  },
+  "src/assets/dump-site-2.jpg": {
+    "file": "assets/dump-site-2-DMW2Jgbl.jpg",
+    "src": "src/assets/dump-site-2.jpg"
+  },
+  "src/assets/hero-drone.jpg": {
+    "file": "assets/hero-drone-8C95_LmY.jpg",
+    "src": "src/assets/hero-drone.jpg"
+  },
+  "src/router.tsx": {
+    "file": "assets/router-DYd51t-S.js",
+    "name": "router",
+    "src": "src/router.tsx",
+    "isDynamicEntry": true,
+    "imports": [
+      "_server-CjynlEf_.js"
+    ],
+    "dynamicImports": [
+      "src/routes/index.tsx?tsr-split=component"
+    ],
+    "assets": [
+      "assets/styles-YbE8dYdW.css"
+    ]
+  },
+  "src/routes/index.tsx?tsr-split=component": {
+    "file": "assets/index-xvaq2-3Y.js",
+    "name": "index",
+    "src": "src/routes/index.tsx?tsr-split=component",
+    "isDynamicEntry": true,
+    "imports": [
+      "_server-CjynlEf_.js"
+    ],
+    "assets": [
+      "assets/hero-drone-8C95_LmY.jpg",
+      "assets/dump-site-1-Bu5jp0SF.jpg",
+      "assets/dump-site-2-DMW2Jgbl.jpg",
+      "assets/drone-flight-CeNTJyLD.jpg",
+      "assets/cleanup-PWriYMB6.jpg"
+    ]
+  },
+  "src/start.ts": {
+    "file": "assets/start-wFnh9hn7.js",
+    "name": "start",
+    "src": "src/start.ts",
+    "isDynamicEntry": true,
+    "imports": [
+      "_worker-entry-CB0lP5kX.js",
+      "_server-CjynlEf_.js"
+    ]
+  },
+  "tanstack-start-manifest:v": {
+    "file": "assets/_tanstack-start-manifest_v-B-DWZf6s.js",
+    "name": "_tanstack-start-manifest_v",
+    "src": "tanstack-start-manifest:v",
+    "isDynamicEntry": true
+  },
+  "virtual:cloudflare/worker-entry": {
+    "file": "index.js",
+    "name": "index",
+    "src": "virtual:cloudflare/worker-entry",
+    "isEntry": true,
+    "imports": [
+      "_worker-entry-CB0lP5kX.js"
+    ]
+  }
+}

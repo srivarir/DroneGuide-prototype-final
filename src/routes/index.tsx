@@ -257,9 +257,14 @@ function Problem() {
           </div>
         </div>
       </div>
-      <div className="mt-10 rounded-sm border border-moss/20 bg-moss/5 px-8 py-6">
+      <motion.div
+  initial={{ opacity: 0, y: 24 }}
+  whileInView={{ opacity: 1, y: 0 }}
+  viewport={{ once: true, margin: "-80px" }}
+  transition={{ duration: 0.6 }}
+  className="mt-10 rounded-sm border border-moss/20 bg-moss/5 px-8 py-6"
+>
   <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
-
     <div>
       <div className="font-mono text-xs uppercase tracking-[0.25em] text-moss">
         Operational impact
@@ -274,9 +279,8 @@ function Problem() {
       Illegal dumping becomes significantly harder and more expensive to manage
       once hotspots grow unchecked across remote reserves and bushland corridors.
     </div>
-
   </div>
-</div>
+</motion.div>
     </Section>
   );
 }
@@ -778,26 +782,33 @@ function Finance() {
       title={<>Structured around <em className="not-italic text-moss">scope</em>, not packaging.</>}
     >
       <div className="grid gap-12 lg:grid-cols-[1fr_1.4fr]">
-        <div className="space-y-1">
-          {[
-            { n: "01", t: "Council coverage area", b: "Reserves, bushland, fire trails, problem corridors" },
-            { n: "02", t: "Monitoring scope", b: "Sweep frequency, drone hours, optional camera sites" },
-            { n: "03", t: "Incident volume", b: "Historical and projected, by category and risk" },
-            { n: "04", t: "Service cost structure", b: "Retainer, per-incident, or hybrid blend" },
-          ].map((s) => (
-            <div key={s.n} className="grid grid-cols-[auto_1fr] gap-6 border-t border-bone/10 py-6">
-              <span className="font-mono text-xs text-moss">{s.n}</span>
-              <div>
-                <div className="font-display text-2xl md:text-3xl text-bone">
-                  {s.t}
-                </div>
-                <div className="mt-2 text-lg leading-relaxed text-fog">
-                  {s.b}
-                </div>
-              </div>
-            </div>
-          ))}
+       <div className="space-y-1">
+  {[
+    { n: "01", t: "Council coverage area", b: "Reserves, bushland, fire trails, problem corridors" },
+    { n: "02", t: "Monitoring scope", b: "Sweep frequency, drone hours, optional camera sites" },
+    { n: "03", t: "Incident volume", b: "Historical and projected, by category and risk" },
+    { n: "04", t: "Service cost structure", b: "Retainer, per-incident, or hybrid blend" },
+  ].map((s, idx) => (
+    <motion.div
+      key={s.n}
+      initial={{ opacity: 0, x: -24 }}
+      whileInView={{ opacity: 1, x: 0 }}
+      viewport={{ once: true, margin: "-80px" }}
+      transition={{ duration: 0.55, delay: idx * 0.08 }}
+      className="grid grid-cols-[auto_1fr] gap-6 border-t border-bone/10 py-6"
+    >
+      <span className="font-mono text-xs text-moss">{s.n}</span>
+      <div>
+        <div className="font-display text-2xl md:text-3xl text-bone">
+          {s.t}
         </div>
+        <div className="mt-2 text-lg leading-relaxed text-fog">
+          {s.b}
+        </div>
+      </div>
+    </motion.div>
+  ))}
+</div>
         <div className="grid gap-3 sm:grid-cols-2">
           {[
             { t: "Pilot Program", d: "Fixed 6-month engagement covering a defined area. Outcome data delivered at month 5." },
@@ -931,7 +942,13 @@ function Compare() {
         
 
         {/* Bottom Takeaway */}
-        <div className="rounded-sm border border-moss/20 bg-moss/5 px-8 py-6">
+        <motion.div
+  initial={{ opacity: 0, y: 30 }}
+  whileInView={{ opacity: 1, y: 0 }}
+  viewport={{ once: true, margin: "-80px" }}
+  transition={{ duration: 0.6 }}
+  className="rounded-sm border border-moss/20 bg-background/30 px-8 py-6"
+>
           <div className="flex flex-col gap-3 md:flex-row md:items-center md:justify-between">
             <div>
               <div className="font-mono text-xs uppercase tracking-[0.25em] text-moss">
@@ -949,7 +966,7 @@ function Compare() {
               internal council teams.
             </div>
           </div>
-        </div>
+        </motion.div>
 
       </div>
     </Section>

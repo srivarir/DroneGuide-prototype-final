@@ -14,6 +14,9 @@ import droneImg from "@/assets/drone-flight.jpg";
 import cleanupImg from "@/assets/cleanup.jpg";
 import proposalPdf from "@/assets/Proposal.pdf";
 
+import "leaflet/dist/leaflet.css";
+
+
 
 export const Route = createFileRoute("/")({ component: Presentation });
 
@@ -348,16 +351,89 @@ function Challenges() {
 
 /* ---------- 4. Map ---------- */
 
-const pins = [
-  { x: 28, y: 38, name: "Gnangara North Track", waste: "Construction debris", tonnes: "~ 4.2 t", risk: "High" },
-  { x: 46, y: 55, name: "Reserve Edge — Sector C", waste: "Tyres & furniture", tonnes: "~ 1.6 t", risk: "Medium" },
-  { x: 64, y: 32, name: "Fire Trail 17", waste: "Asbestos sheeting", tonnes: "~ 0.8 t", risk: "Critical" },
-  { x: 72, y: 68, name: "Pinjar Access Road", waste: "Mixed household", tonnes: "~ 2.1 t", risk: "Medium" },
-  { x: 38, y: 72, name: "Wanneroo Bushland", waste: "Green waste & timber", tonnes: "~ 3.4 t", risk: "Low" },
-  { x: 55, y: 22, name: "Old Quarry Approach", waste: "Industrial drums", tonnes: "~ 1.2 t", risk: "Critical" },
+const dumpSites = [
+  {
+    lat: -31.7520,
+    lng: 115.8770,
+    id: "GF-01",
+    name: "Wanneroo Rd Access North",
+    type: "Mixed household waste",
+    tonnes: "12.5t",
+    risk: "High",
+  },
+  {
+    lat: -31.7682,
+    lng: 115.8912,
+    id: "GF-02",
+    name: "Mariginiup Track East",
+    type: "Construction debris — asbestos suspected",
+    tonnes: "8.2t",
+    risk: "Critical",
+  },
+  {
+    lat: -31.7430,
+    lng: 115.8648,
+    id: "GF-03",
+    name: "Gnangara Rd Verge W",
+    type: "E-waste, tyres, whitegoods",
+    tonnes: "15.8t",
+    risk: "High",
+  },
+  {
+    lat: -31.7824,
+    lng: 115.8758,
+    id: "GF-04",
+    name: "Nowergup Rd Track",
+    type: "Mixed waste, mattresses",
+    tonnes: "6.3t",
+    risk: "Medium",
+  },
+  {
+    lat: -31.7592,
+    lng: 115.9020,
+    id: "GF-05",
+    name: "Flynn Dr Forest Access",
+    type: "Building materials, metals",
+    tonnes: "18.4t",
+    risk: "High",
+  },
+  {
+    lat: -31.7713,
+    lng: 115.8582,
+    id: "GF-06",
+    name: "Lake Gnangara South",
+    type: "Household goods, tyres",
+    tonnes: "9.1t",
+    risk: "Medium",
+  },
+  {
+    lat: -31.7371,
+    lng: 115.8834,
+    id: "GF-07",
+    name: "Gnangara Forest North",
+    type: "Mixed debris, soil contamination",
+    tonnes: "22.7t",
+    risk: "Critical",
+  },
+  {
+    lat: -31.7904,
+    lng: 115.8921,
+    id: "GF-08",
+    name: "Pinjar Rd Verge",
+    type: "Green waste, general rubbish",
+    tonnes: "7.0t",
+    risk: "Low",
+  },
 ];
 
 const riskColor: Record<string, string> = {
+  Low: "#3d9458",
+  Medium: "#c8a84a",
+  High: "#d4934a",
+  Critical: "#d45a4a",
+};
+
+const riskClass: Record<string, string> = {
   Low: "text-moss border-moss/40 bg-moss/10",
   Medium: "text-amber-300 border-amber-300/40 bg-amber-300/10",
   High: "text-orange-300 border-orange-300/40 bg-orange-300/10",
@@ -365,85 +441,187 @@ const riskColor: Record<string, string> = {
 };
 
 function MapSection() {
+  const mapRef = useRef<HTMLDivElement | null>(null);
+  const mapInstanceRef = useRef<any>(null);
   const [active, setActive] = useState(0);
+
+  
+
+  useEffect(() => {
+    let cancelled = false;
+
+    const loadMap = async () => {
+      if (!mapRef.current || mapInstanceRef.current) return;
+
+      const leaflet = await import("leaflet");
+      if (cancelled || !mapRef.current) return;
+
+      const L = leaflet.default ?? leaflet;
+
+      const map = L.map(mapRef.current, {
+        zoomControl: false,
+        scrollWheelZoom: false,
+      }).setView([-31.763, 115.883], 13);
+
+      L.tileLayer(
+        "https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png",
+        {
+          attribution: "© OpenStreetMap © CartoDB",
+          subdomains: "abcd",
+          maxZoom: 20,
+        }
+      ).addTo(map);
+
+      L.control.zoom({ position: "bottomright" }).addTo(map);
+
+      dumpSites.forEach((site, index) => {
+        const color = riskColor[site.risk] || "#3d9458";
+
+        const icon = L.divIcon({
+          className: "",
+          html: `
+            <div style="
+              width:16px;
+              height:16px;
+              border-radius:9999px;
+              background:${color};
+              border:2px solid rgba(255,255,255,0.45);
+              box-shadow:0 0 18px ${color};
+            "></div>
+          `,
+          iconSize: [16, 16],
+          iconAnchor: [8, 8],
+        });
+
+        const marker = L.marker([site.lat, site.lng], { icon }).addTo(map);
+
+        marker.on("click", () => {
+          setActive(index);
+
+          map.flyTo([site.lat, site.lng], 13, {
+            duration: 0.8,
+          });
+        });
+      });
+
+      mapInstanceRef.current = map;
+    };
+
+    loadMap();
+
+    return () => {
+      cancelled = true;
+
+      if (mapInstanceRef.current) {
+        mapInstanceRef.current.remove();
+        mapInstanceRef.current = null;
+      }
+    };
+  }, []);
+
+  const site = dumpSites[active];
+
   return (
-    <Section id="map" index="04" label="Hotspot Intelligence"
-      title={<>Where dumping is <em className="not-italic text-moss">actually</em> happening.</>}
+    <Section
+      id="map"
+      index="04"
+      label="Hotspot Intelligence"
+      title={
+        <>
+          Where dumping is{" "}
+          <em className="not-italic text-moss">actually</em> happening.
+        </>
+      }
+      className="bg-card/40"
     >
-      <div className="grid gap-8 lg:grid-cols-[1.6fr_1fr]">
-        <div className="relative aspect-[16/10] overflow-hidden rounded-sm border hairline bg-[oklch(0.22_0.018_160)]">
-          {/* topo background */}
-          <div className="absolute inset-0 topo opacity-60" />
-          <svg className="absolute inset-0 h-full w-full" viewBox="0 0 100 100" preserveAspectRatio="none">
-            {[0.15, 0.3, 0.45, 0.6, 0.75].map((r, i) => (
-              <path
-                key={i}
-                d={`M ${10 + i * 3} ${50 + Math.sin(i) * 10} Q ${50} ${20 + i * 8} ${90 - i * 2} ${60 - i * 5}`}
-                fill="none"
-                stroke="oklch(0.62 0.09 150 / 0.18)"
-                strokeWidth="0.15"
-              />
-            ))}
-          </svg>
-          {/* scanning line */}
-          <motion.div
-            className="absolute inset-y-0 left-0 w-px bg-gradient-to-b from-transparent via-moss to-transparent"
-            animate={{ x: ["0%", "100%", "0%"] }}
-            transition={{ duration: 12, repeat: Infinity, ease: "linear" }}
-            style={{ width: "100%", boxShadow: "0 0 40px oklch(0.62 0.09 150 / 0.4)" }}
-          >
-            <div className="h-full w-px bg-moss" />
-          </motion.div>
+      <div className="relative isolate mt-8 overflow-hidden rounded-sm border border-bone/10 bg-[#07110c]">
 
-          {pins.map((p, i) => (
-            <button
-              key={p.name}
-              onClick={() => setActive(i)}
-              className="absolute -translate-x-1/2 -translate-y-1/2"
-              style={{ left: `${p.x}%`, top: `${p.y}%` }}
-            >
-              <span className="relative flex h-4 w-4 items-center justify-center">
-                <span className={`absolute h-full w-full animate-ping rounded-full ${active === i ? "bg-rust/40" : "bg-moss/40"}`} />
-                <span className={`relative h-2.5 w-2.5 rounded-full ${active === i ? "bg-rust shadow-[0_0_12px] shadow-rust" : "bg-moss"}`} />
-              </span>
-            </button>
-          ))}
+  {/* MAP */}
+  <div
+    ref={mapRef}
+    className="relative z-0 h-[78vh] min-h-[700px] w-full"
+    style={{ filter: "contrast(1.05) brightness(1.12)" }}
+  />
 
-          <div className="absolute left-4 top-4 font-mono text-[10px] uppercase tracking-[0.2em] text-moss">
-            ⌖ Live hotspot map · 6 pins · Northern Corridor
+  {/* DARK OVERLAY */}
+  <div className="pointer-events-none absolute inset-0 z-10 bg-gradient-to-r from-background/55 via-background/8 to-background/55" />
+        {/* TITLE */}
+        <div className="absolute left-6 top-6 z-20 max-w-2xl">
+          <div className="flex items-center gap-3">
+            <div className="h-px w-8 bg-moss" />
+            <span className="font-mono text-[10px] uppercase tracking-[0.25em] text-moss">
+              03 — Existing Dumping Locations
+            </span>
           </div>
-          <div className="absolute bottom-4 right-4 font-mono text-[10px] text-muted-foreground">
-            31°44'S · 115°50'E
-          </div>
+
+          <h3 className="mt-5 font-display text-4xl font-light leading-tight text-bone md:text-6xl">
+            Gnangara Forest —{" "}
+            <em className="not-italic text-moss">Mapped Sites</em>
+          </h3>
         </div>
 
+        {/* LEFT SUMMARY CARD */}
+        <div className="absolute left-6 top-1/2 z-20 hidden w-[240px] -translate-y-1/2 rounded-sm border border-moss/20 bg-background/85 p-6 backdrop-blur-md lg:block">
+          <div className="font-display text-5xl font-light text-moss">
+            ~100t
+          </div>
+
+          <div className="mt-4 font-mono text-[10px] uppercase tracking-[0.22em] text-moss">
+            Total mapped waste
+          </div>
+
+          <p className="mt-5 text-sm leading-relaxed text-fog">
+            8 active dumping sites identified and verified by Greenback Recovery.
+          </p>
+        </div>
+
+        {/* RIGHT ACTIVE INCIDENT PANEL */}
         <AnimatePresence mode="wait">
           <motion.div
-            key={active}
-            initial={{ opacity: 0, y: 10 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -10 }}
+            key={site.id}
+            initial={{ opacity: 0, x: 30 }}
+            animate={{ opacity: 1, x: 0 }}
+            exit={{ opacity: 0, x: 20 }}
             transition={{ duration: 0.35 }}
-            className="glass rounded-sm p-6"
+            className="absolute right-6 top-1/2 z-20 hidden w-full max-w-[360px] -translate-y-1/2 rounded-sm border border-bone/10 bg-background/90 p-6 backdrop-blur-md lg:block"
           >
             <div className="flex items-center justify-between">
-              <div className="font-mono text-xs uppercase tracking-[0.2em] text-moss">Incident #{String(active + 1).padStart(3, "0")}</div>
-              <span className={`chip border ${riskColor[pins[active].risk]}`}>{pins[active].risk}</span>
+              <div className="font-mono text-[10px] uppercase tracking-[0.2em] text-moss">
+                GBR-{site.id}
+              </div>
+
+              <span
+                className={`rounded-sm border px-2 py-1 font-mono text-[10px] uppercase tracking-[0.2em] ${riskClass[site.risk]}`}
+              >
+                {site.risk}
+              </span>
             </div>
-            <h3 className="mt-4 font-display text-3xl font-light text-bone">{pins[active].name}</h3>
-            <div className="mt-6 space-y-3 border-t border-bone/10 pt-4 text-sm">
-              <Row k="Waste type" v={pins[active].waste} />
-              <Row k="Est. tonnage" v={pins[active].tonnes} />
-              <Row k="Detected by" v="Drone sweep · A-07" />
-              <Row k="Status" v="Pending dispatch" />
-            </div>
-            <div className="mt-6 grid grid-cols-3 gap-1">
-              <img src={dump1} alt="" className="aspect-square w-full object-cover" loading="lazy" />
-              <img src={dump2} alt="" className="aspect-square w-full object-cover" loading="lazy" />
-              <img src={heroImg} alt="" className="aspect-square w-full object-cover" loading="lazy" />
+
+            <h3 className="mt-5 font-display text-3xl font-light text-bone">
+              {site.name}
+            </h3>
+
+            <div className="mt-6 space-y-4 border-t border-bone/10 pt-5 text-sm">
+              <Row k="Waste type" v={site.type} />
+              <Row k="Est. volume" v={site.tonnes} />
+              <Row k="Risk level" v={site.risk} />
+              <Row k="Status" v="Awaiting Removal" />
             </div>
           </motion.div>
         </AnimatePresence>
+
+        {/* LEGEND */}
+        <div className="absolute bottom-6 left-6 z-20 flex flex-wrap gap-2">
+          <LegendDot color="#d45a4a" label="Critical" />
+          <LegendDot color="#d4934a" label="High" />
+          <LegendDot color="#c8a84a" label="Medium" />
+          <LegendDot color="#3d9458" label="Low" />
+        </div>
+
+        {/* COORDS */}
+        <div className="absolute bottom-6 right-6 z-20 hidden font-mono text-[10px] text-muted-foreground md:block">
+          31°44'S · 115°50'E
+        </div>
       </div>
     </Section>
   );
@@ -452,8 +630,29 @@ function MapSection() {
 function Row({ k, v }: { k: string; v: string }) {
   return (
     <div className="flex items-baseline justify-between gap-4">
-      <span className="font-mono text-[11px] uppercase tracking-[0.18em] text-muted-foreground">{k}</span>
-      <span className="text-bone">{v}</span>
+      <span className="font-mono text-[11px] uppercase tracking-[0.18em] text-muted-foreground">
+        {k}
+      </span>
+
+      <span className="text-right text-bone">{v}</span>
+    </div>
+  );
+}
+
+function LegendDot({
+  color,
+  label,
+}: {
+  color: string;
+  label: string;
+}) {
+  return (
+    <div className="inline-flex items-center gap-2 rounded-sm border border-bone/10 bg-background/85 px-3 py-2 font-mono text-[10px] uppercase tracking-[0.18em] text-muted-foreground backdrop-blur-sm">
+      <span
+        className="h-2.5 w-2.5 rounded-full"
+        style={{ background: color }}
+      />
+      {label}
     </div>
   );
 }
@@ -697,6 +896,13 @@ function Dashboard() {
   const months = ["Sep", "Oct", "Nov", "Dec", "Jan", "Feb", "Mar"];
   const data = [18, 24, 21, 32, 28, 35, 41];
   const max = Math.max(...data);
+  const topHotspots = [
+  { name: "Gnangara Forest North", tonnes: "22.7t" },
+  { name: "Flynn Dr Forest Access", tonnes: "18.4t" },
+  { name: "Gnangara Rd Verge W", tonnes: "15.8t" },
+  { name: "Wanneroo Rd Access North", tonnes: "12.5t" },
+  { name: "Lake Gnangara South", tonnes: "9.1t" },
+];
   return (
     <Section id="dashboard" index="09" label="Operations Dashboard"
       title={<>What council sees, <em className="not-italic text-moss">every</em> month.</>}
@@ -760,7 +966,7 @@ function Dashboard() {
               <Camera className="h-3.5 w-3.5" /> Top hotspots
             </div>
             <ul className="space-y-3">
-              {pins.slice(0, 5).map((p, i) => (
+             {topHotspots.map((p, i) => (
                 <li key={p.name} className="flex items-center justify-between border-t border-bone/5 pt-3 text-sm">
                   <div className="flex items-center gap-2 text-bone">
                     <MapPin className="h-3 w-3 text-moss" /> {p.name}

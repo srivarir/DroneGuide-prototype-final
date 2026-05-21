@@ -3,8 +3,8 @@ import { useEffect, useRef, useState } from "react";
 import { motion, useScroll, useTransform, AnimatePresence } from "framer-motion";
 import {
   ChevronDown, AlertTriangle, Phone, MapPinOff, FileWarning, Scale, Users,
-  Plane, Crosshair, ClipboardCheck, Truck, Recycle, FileText,
-  Radar, BarChart3, Camera, Flame, Droplet, Bird, Skull,
+  Plane, Crosshair, ClipboardCheck, Truck, Recycle, FileText,Download,
+  Radar, BarChart3, Camera, Flame, Droplet, Bird, Skull,Eye,
   Calendar, CheckCircle2, XCircle, Sparkles, ArrowRight, MapPin,
 } from "lucide-react";
 import heroImg from "@/assets/hero-drone.jpg";
@@ -12,6 +12,8 @@ import dump1 from "@/assets/dump-site-1.jpg";
 import dump2 from "@/assets/dump-site-2.jpg";
 import droneImg from "@/assets/drone-flight.jpg";
 import cleanupImg from "@/assets/cleanup.jpg";
+import proposalPdf from "@/assets/Proposal.pdf";
+
 
 export const Route = createFileRoute("/")({ component: Presentation });
 
@@ -942,13 +944,7 @@ function Compare() {
         
 
         {/* Bottom Takeaway */}
-        <motion.div
-  initial={{ opacity: 0, y: 30 }}
-  whileInView={{ opacity: 1, y: 0 }}
-  viewport={{ once: true, margin: "-80px" }}
-  transition={{ duration: 0.6 }}
-  className="rounded-sm border border-moss/20 bg-background/30 px-8 py-6"
->
+        <div className="rounded-sm border border-moss/20 bg-moss/5 px-8 py-6">
           <div className="flex flex-col gap-3 md:flex-row md:items-center md:justify-between">
             <div>
               <div className="font-mono text-xs uppercase tracking-[0.25em] text-moss">
@@ -966,7 +962,7 @@ function Compare() {
               internal council teams.
             </div>
           </div>
-        </motion.div>
+        </div>
 
       </div>
     </Section>
@@ -1361,7 +1357,7 @@ function Closing() {
           <em className="not-italic text-moss">Faster</em> response. <br />
           Smarter detection.
         </h2>
-        <div className="mt-16 grid gap-8 text-sm text-muted-foreground sm:grid-cols-3">
+        <div className="mt-12 grid gap-8 text-sm text-muted-foreground sm:grid-cols-3">
           <div>
             <div className="font-mono text-[10px] uppercase tracking-[0.25em] text-moss">Prepared by</div>
             <div className="mt-2 text-bone">Greenback Recovery PTY LTD</div>
@@ -1375,7 +1371,31 @@ function Closing() {
             <div className="mt-2 text-bone">proposals@greenback.au</div>
           </div>
         </div>
-        <div className="mt-16 inline-flex items-center gap-3 border-t border-bone/10 pt-6 font-mono text-[10px] uppercase tracking-[0.25em] text-muted-foreground">
+         {/* buttons */}
+        <div className="mt-12 flex flex-col items-center justify-center gap-4 sm:flex-row">
+          {/* download */}
+          <a
+            href={proposalPdf}
+            download
+            className="inline-flex min-w-[280px] items-center justify-center gap-3 rounded-md bg-moss px-7 py-4 font-mono text-xs uppercase tracking-[0.25em] text-background transition-all duration-300 hover:scale-[1.02] hover:bg-moss/90"
+          >
+            <Download className="h-5 w-5" /> 
+            Download Proposal · PDF
+          </a>
+
+          {/* view */}
+          <a
+            href={proposalPdf}
+            target="_blank"
+            rel="noreferrer"
+            className="inline-flex min-w-[220px] items-center justify-center gap-3 rounded-md border border-bone/20 bg-transparent px-7 py-4 font-mono text-xs uppercase tracking-[0.25em] text-bone transition-all duration-300 hover:scale-[1.02] hover:border-bone/40"
+          >
+            <Eye className="h-5 w-5" /> 
+            View in Browser
+          </a>
+        </div>
+
+        <div className="mt-8 inline-flex items-center gap-3 border-t border-bone/10 pt-6 font-mono text-[10px] uppercase tracking-[0.25em] text-muted-foreground">
           <AlertTriangle className="h-3 w-3 text-moss" />
           Confidential · For council review only
         </div>

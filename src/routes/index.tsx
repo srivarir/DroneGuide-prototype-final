@@ -83,7 +83,7 @@ function Section({
   children: React.ReactNode; className?: string;
 }) {
   return (
-    <section id={id} className={`relative min-h-screen w-full px-6 py-24 md:px-16 lg:px-24 ${className}`}>
+    <section id={id} className={`relative min-h-screen w-full px-6 py-16 md:px-16 lg:px-24 ${className}`}>
       <div className="mx-auto max-w-7xl">
         {(label || title) && (
           <header className="mb-12 max-w-4xl">
@@ -257,6 +257,26 @@ function Problem() {
           </div>
         </div>
       </div>
+      <div className="mt-10 rounded-sm border border-moss/20 bg-moss/5 px-8 py-6">
+  <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
+
+    <div>
+      <div className="font-mono text-xs uppercase tracking-[0.25em] text-moss">
+        Operational impact
+      </div>
+
+      <h3 className="mt-2 font-display text-3xl text-bone">
+        Delayed discovery multiplies cost, risk, and workload.
+      </h3>
+    </div>
+
+    <div className="max-w-md text-base leading-relaxed text-fog">
+      Illegal dumping becomes significantly harder and more expensive to manage
+      once hotspots grow unchecked across remote reserves and bushland corridors.
+    </div>
+
+  </div>
+</div>
     </Section>
   );
 }
@@ -472,7 +492,7 @@ function Impact() {
                 <h3 className="font-display text-4xl font-light text-bone md:text-5xl">{it.t}</h3>
                 <p className="mt-4 max-w-md text-lg text-fog">{it.b}</p>
               </div>
-              <div className="relative aspect-[16/10] overflow-hidden rounded-sm">
+              <div className="relative aspect-[16/9] overflow-hidden rounded-md">
                 <img src={it.img} alt="" className="h-full w-full object-cover" loading="lazy" />
                 <div className="absolute inset-0 bg-gradient-to-tr from-background/80 via-transparent to-transparent" />
               </div>
@@ -768,8 +788,12 @@ function Finance() {
             <div key={s.n} className="grid grid-cols-[auto_1fr] gap-6 border-t border-bone/10 py-6">
               <span className="font-mono text-xs text-moss">{s.n}</span>
               <div>
-                <div className="font-display text-xl text-bone">{s.t}</div>
-                <div className="mt-1 text-sm text-fog">{s.b}</div>
+                <div className="font-display text-2xl md:text-3xl text-bone">
+                  {s.t}
+                </div>
+                <div className="mt-2 text-lg leading-relaxed text-fog">
+                  {s.b}
+                </div>
               </div>
             </div>
           ))}
@@ -787,11 +811,11 @@ function Finance() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, margin: "-60px" }}
               transition={{ duration: 0.5 }}
-              className="rounded-sm border hairline bg-card/60 p-6"
+              className="rounded-sm border hairline bg-card/60 p-8"
             >
-              <div className="font-mono text-[10px] uppercase tracking-[0.25em] text-moss">Option</div>
-              <h3 className="mt-2 font-display text-2xl font-light text-bone">{c.t}</h3>
-              <p className="mt-2 text-sm text-fog">{c.d}</p>
+              <div className="font-mono text-xs uppercase tracking-[0.25em] text-moss">Option</div>
+              <h3 className="mt-3 font-display text-3xl font-light text-bone">{c.t}</h3>
+             <p className="mt-3 text-md leading-relaxed text-fog">{c.d}</p>
             </motion.div>
           ))}
         </div>
@@ -802,41 +826,131 @@ function Finance() {
 
 /* ---------- 11. Compare ---------- */
 
+/* ---------- 11. Compare ---------- */
+
 function Compare() {
-  const trad = ["Reactive, complaint-driven", "Delays of weeks or months", "Fragmented evidence trail", "Reliant on public reports", "Patchy coverage of remote sites"];
-  const prop = ["Proactive, scheduled detection", "Same-week verified response", "Sealed evidence pack per incident", "Drone-led, dashboard-managed", "Full coverage of trails & reserves"];
+  const trad = [
+    "Reactive, complaint-driven",
+    "Delays of weeks or months",
+    "Fragmented evidence trail",
+    "Reliant on public reports",
+    "Patchy coverage of remote sites",
+  ];
+
+  const prop = [
+    "Proactive, scheduled detection",
+    "Same-week verified response",
+    "Sealed evidence pack per incident",
+    "Drone-led, dashboard-managed",
+    "Full coverage of trails & reserves",
+  ];
+
   return (
-    <Section id="compare" index="11" label="Why outsourcing works"
+    <Section
+      id="compare"
+      index="11"
+      label="Why outsourcing works"
       title={<>Two operating models, side by side.</>}
       className="bg-card/40"
     >
-      <div className="grid gap-6 md:grid-cols-2">
-        <div className="rounded-sm border hairline bg-background/40 p-8">
-          <div className="mb-6 flex items-center gap-3">
-            <XCircle className="h-5 w-5 text-rust" />
-            <span className="font-mono text-xs uppercase tracking-[0.2em] text-muted-foreground">Traditional council process</span>
-          </div>
-          <ul className="space-y-4">
-            {trad.map((t) => (
-              <li key={t} className="flex items-start gap-3 border-t border-bone/10 pt-4 text-fog">
-                <span className="mt-2 h-1 w-3 shrink-0 bg-rust/60" />{t}
-              </li>
-            ))}
-          </ul>
+      <div className="-mt-8 space-y-6">
+
+        {/* Intro */}
+        <div className="max-w-3xl">
+          <p className="text-lg leading-relaxed text-fog md:text-xl">
+            Traditional dumping response systems are reactive and fragmented.
+            The proposed model creates a proactive operational workflow with
+            faster detection, clearer evidence, and lower administrative load.
+          </p>
         </div>
-        <div className="rounded-sm border border-moss/30 bg-moss/5 p-8">
-          <div className="mb-6 flex items-center gap-3">
-            <CheckCircle2 className="h-5 w-5 text-moss" />
-            <span className="font-mono text-xs uppercase tracking-[0.2em] text-moss">Proposed model</span>
-          </div>
-          <ul className="space-y-4">
-            {prop.map((t) => (
-              <li key={t} className="flex items-start gap-3 border-t border-moss/20 pt-4 text-bone">
-                <span className="mt-2 h-1 w-3 shrink-0 bg-moss" />{t}
-              </li>
-            ))}
-          </ul>
+
+        {/* Main Compare Grid */}
+        <div className="grid gap-6 lg:grid-cols-2">
+
+          {/* Traditional */}
+          <motion.div
+            initial={{ opacity: 0, y: 25 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: "-60px" }}
+            transition={{ duration: 0.6 }}
+            className="rounded-sm border border-bone/10 bg-background/40 p-8"
+          >
+            <div className="mb-8 flex items-center gap-3">
+              <XCircle className="h-5 w-5 text-rust" />
+              <span className="font-mono text-xs uppercase tracking-[0.25em] text-muted-foreground">
+                Traditional council process
+              </span>
+            </div>
+
+            <ul className="space-y-4">
+              {trad.map((t) => (
+                <li
+                  key={t}
+                  className="flex items-start gap-4 border-t border-bone/10 pt-4"
+                >
+                  <span className="mt-2 h-1.5 w-3 shrink-0 bg-rust/70" />
+                  <span className="text-lg leading-relaxed text-fog">
+                    {t}
+                  </span>
+                </li>
+              ))}
+            </ul>
+          </motion.div>
+
+          {/* Proposed */}
+          <motion.div
+            initial={{ opacity: 0, y: 25 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: "-60px" }}
+            transition={{ duration: 0.6, delay: 0.1 }}
+            className="rounded-sm border border-moss/30 bg-moss/5 p-8"
+          >
+            <div className="mb-8 flex items-center gap-3">
+              <CheckCircle2 className="h-5 w-5 text-moss" />
+              <span className="font-mono text-xs uppercase tracking-[0.25em] text-moss">
+                Proposed model
+              </span>
+            </div>
+
+            <ul className="space-y-4">
+              {prop.map((t) => (
+                <li
+                  key={t}
+                  className="flex items-start gap-4 border-t border-moss/20 pt-4"
+                >
+                  <span className="mt-2 h-1.5 w-3 shrink-0 bg-moss" />
+                  <span className="text-lg leading-relaxed text-bone">
+                    {t}
+                  </span>
+                </li>
+              ))}
+            </ul>
+          </motion.div>
         </div>
+
+        
+
+        {/* Bottom Takeaway */}
+        <div className="rounded-sm border border-moss/20 bg-moss/5 px-8 py-6">
+          <div className="flex flex-col gap-3 md:flex-row md:items-center md:justify-between">
+            <div>
+              <div className="font-mono text-xs uppercase tracking-[0.25em] text-moss">
+                Operational outcome
+              </div>
+
+              <h3 className="mt-2 font-display text-3xl text-bone">
+                Faster response. Cleaner reporting. Lower workload.
+              </h3>
+            </div>
+
+            <div className="max-w-md text-base leading-relaxed text-fog">
+              The proposed workflow reduces delays, centralises evidence,
+              improves visibility across remote areas, and removes pressure from
+              internal council teams.
+            </div>
+          </div>
+        </div>
+
       </div>
     </Section>
   );
@@ -844,46 +958,231 @@ function Compare() {
 
 /* ---------- 12. Pilot Timeline ---------- */
 
+/* ---------- 12. Pilot ---------- */
+
 const pilot = [
-  { m: "Month 1", t: "Hotspot mapping", b: "Baseline survey, identify priority zones, agree sweep schedule." },
-  { m: "Month 2", t: "Drone monitoring", b: "Scheduled aerial sweeps begin. First verified incidents enter the dashboard." },
-  { m: "Month 3", t: "Removal coordination", b: "Full dispatch loop active. Licensed contractors operating with evidence packs." },
-  { m: "Month 4", t: "Reporting metrics", b: "Monthly council reporting begins. Trends and repeat hotspots emerging." },
-  { m: "Month 5–6", t: "Performance review", b: "Outcome data and recommendations presented to council leadership." },
+  {
+    month: "Month 1",
+    title: "Hotspot mapping",
+    body: "Baseline survey, identify priority zones, agree sweep schedule.",
+  },
+  {
+    month: "Month 2",
+    title: "Drone monitoring",
+    body: "Scheduled aerial sweeps begin. First verified incidents enter the dashboard.",
+  },
+  {
+    month: "Month 3",
+    title: "Removal coordination",
+    body: "Full dispatch loop active. Licensed contractors operating with evidence packs.",
+  },
+  {
+    month: "Month 4",
+    title: "Reporting metrics",
+    body: "Monthly council reporting begins. Trends and repeat hotspots emerging.",
+  },
+  {
+    month: "Months 5–6",
+    title: "Performance review",
+    body: "Outcome data and recommendations presented to council leadership.",
+  },
 ];
 
 function Pilot() {
   return (
-    <Section id="pilot" index="12" label="Pilot Rollout"
-      title={<>Six months. <em className="not-italic text-moss">Measurable</em> outcomes.</>}
+    <Section
+      id="pilot"
+      index="12"
+      label="Pilot Rollout"
+      title={
+        <>
+          Six months. <em className="not-italic text-moss">Measurable</em> outcomes.
+        </>
+      }
+      className="bg-card/40"
     >
-      <div className="relative">
-        <div className="absolute left-0 right-0 top-6 hidden h-px bg-gradient-to-r from-transparent via-moss/40 to-transparent md:block" />
-        <ol className="grid gap-10 md:grid-cols-5 md:gap-4">
-          {pilot.map((p, i) => (
-            <motion.li
-              key={p.m}
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, margin: "-80px" }}
-              transition={{ duration: 0.5, delay: i * 0.08 }}
-              className="relative"
-            >
-              <div className="mb-4 flex h-12 w-12 items-center justify-center rounded-full border border-moss/40 bg-background">
-                <Calendar className="h-4 w-4 text-moss" />
+      <div className="-mt-8 space-y-12">
+
+        {/* Intro */}
+        <div className="max-w-3xl">
+          <p className="text-lg leading-relaxed text-fog md:text-xl">
+            The rollout is designed as a structured operational pilot —
+            beginning with hotspot mapping and progressing toward measurable
+            reporting, coordinated removals, and long-term optimisation.
+          </p>
+        </div>
+
+        {/* Timeline Layout */}
+       <div className="grid items-start gap-10 lg:grid-cols-[320px_1fr]">
+
+          {/* Left timeline rail */}
+          <div className="relative border-l border-moss/20 pl-8">
+
+            {pilot.map((p, i) => (
+              <div
+                key={p.month}
+                className={`${i !== pilot.length - 1 ? "pb-12" : ""} relative`}
+              >
+                <div className="absolute -left-[41px] top-1 flex h-6 w-6 items-center justify-center rounded-full border border-moss/30 bg-background">
+                  <div className="h-2 w-2 rounded-full bg-moss" />
+                </div>
+
+                <div className="font-mono text-xs -mt-2 uppercase tracking-[0.25em] text-moss">
+                  {p.month}
+                </div>
+
+                <h3 className="mt-2 font-display text-3xl text-bone">
+                  {p.title}
+                </h3>
+
+                <p className="mt-2 text-lg leading-relaxed text-fog">
+                  {p.body}
+                </p>
               </div>
-              <div className="font-mono text-[10px] uppercase tracking-[0.25em] text-moss">{p.m}</div>
-              <h3 className="mt-2 font-display text-xl font-light text-bone">{p.t}</h3>
-              <p className="mt-2 text-sm text-fog">{p.b}</p>
-            </motion.li>
-          ))}
-        </ol>
+            ))}
+          </div>
+
+          {/* Right side panel */}
+          <div className="grid gap-5">
+            <div className="grid content-start gap-4">
+              <div className="rounded-sm border border-bone/10 bg-background/30 p-6">
+                <div className="font-mono text-xs uppercase tracking-[0.25em] text-moss">
+                  Operational cadence
+                </div>
+                <h3 className="mt-3 font-display text-4xl text-bone">
+                  Continuous detection + reporting
+                </h3>
+                <p className="mt-4 max-w-2xl text-lg leading-relaxed text-fog">
+                  Drone sweeps, evidence packaging, contractor coordination and council
+                  reporting operate as one connected workflow instead of isolated actions.
+                </p>
+              </div>
+
+              <div className="grid gap-4 sm:grid-cols-2">
+                <div className="rounded-sm border border-bone/10 bg-background/20 p-5">
+                  <div className="font-mono text-sm uppercase tracking-[0.2em] text-moss">
+                    Week 1–2
+                  </div>
+                  <div className="mt-2 font-display text-3xl text-bone">
+                    Baseline mapping
+                  </div>
+                  <p className="mt-2 text-base leading-relaxed text-fog">
+                    Priority zones, access points, and hotspot clusters are identified.
+                  </p>
+                </div>
+
+                <div className="rounded-sm border border-bone/10 bg-background/20 p-5">
+                  <div className="font-mono text-sm uppercase tracking-[0.2em] text-moss">
+                    Week 3–8
+                  </div>
+                  <div className="mt-2 font-display text-3xl text-bone">
+                    Active monitoring
+                  </div>
+                  <p className="mt-2 text-base leading-relaxed text-fog">
+                    Scheduled sweeps begin and verified incidents flow into the dashboard.
+                  </p>
+                </div>
+
+                <div className="rounded-sm border border-bone/10 bg-background/20 p-5">
+                  <div className="font-mono text-sm uppercase tracking-[0.2em] text-moss">
+                    Month 3–4
+                  </div>
+                  <div className="mt-2 font-display text-3xl text-bone">
+                    Removal loop
+                  </div>
+                  <p className="mt-2 text-base leading-relaxed text-fog">
+                    Licensed contractors and council teams work from a shared evidence pack.
+                  </p>
+                </div>
+
+                <div className="rounded-sm border border-bone/10 bg-background/20 p-5">
+                  <div className="font-mono text-sm uppercase tracking-[0.2em] text-moss">
+                    Month 5–6
+                  </div>
+                  <div className="mt-2 font-display text-3xl text-bone">
+                    Review & optimise
+                  </div>
+                  <p className="mt-2 text-base leading-relaxed text-fog">
+                    Trends, repeat hotspots and performance data guide the next rollout.
+                  </p>
+                </div>
+              </div>
+
+              <div className="rounded-sm border border-moss/20 bg-moss/5 px-6 py-5">
+                <div className="font-mono text-md uppercase tracking-[0.25em] text-moss">
+                  Pilot objective
+                </div>
+                <p className="mt-2 text-base leading-relaxed text-bone">
+                  Prove operational value before long-term rollout.
+                </p>
+                <p className="mt-2 text-sm leading-relaxed text-fog">
+                  Councils receive measurable operational data, visibility into repeat
+                  hotspots, and a structured framework for future expansion.
+                </p>
+              </div>
+            </div>
+
+            <div className="grid gap-5 md:grid-cols-2">
+
+              <div className="rounded-sm border border-bone/10 bg-background/30 p-6">
+                <div className="font-mono text-md uppercase tracking-[0.2em] text-moss">
+                  Deliverables
+                </div>
+
+                <ul className="mt-4 space-y-3 text-fog">
+                  <li>Monthly hotspot reporting</li>
+                  <li>Evidence-backed incidents</li>
+                  <li>Trend identification</li>
+                  <li>Removal coordination</li>
+                </ul>
+              </div>
+
+              <div className="rounded-sm border border-bone/10 bg-background/30 p-6">
+                <div className="font-mono text-md uppercase tracking-[0.2em] text-moss">
+                  Outcome
+                </div>
+
+                <ul className="mt-4 space-y-3 text-fog">
+                  <li>Faster incident response</li>
+                  <li>Lower administrative load</li>
+                  <li>Clear audit trail</li>
+                  <li>Long-term hotspot visibility</li>
+                </ul>
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+        {/* Bottom strip */}
+        <div className="rounded-sm border border-moss/20 bg-moss/5 px-8 py-6">
+          <div className="flex flex-col gap-3 md:flex-row md:items-center md:justify-between">
+
+            <div>
+              <div className="font-mono text-xs uppercase tracking-[0.25em] text-moss">
+                Pilot objective
+              </div>
+
+              <h3 className="mt-2 font-display text-3xl text-bone">
+                Prove operational value before long-term rollout.
+              </h3>
+            </div>
+
+            <div className="max-w-md text-base leading-relaxed text-fog">
+              Councils receive measurable operational data, visibility into
+              repeat hotspots, and a structured framework for future expansion.
+            </div>
+
+          </div>
+        </div>
+
       </div>
     </Section>
   );
 }
-
 /* ---------- 13. Future ---------- */
+
+
 
 const future = [
   { t: "Solar AI cameras", b: "Permanent detection at confirmed repeat zones." },
@@ -896,26 +1195,127 @@ const future = [
 
 function Future() {
   return (
-    <Section id="future" index="13" label="Future Vision"
-      title={<>What this becomes <em className="not-italic text-moss">in three years.</em></>}
+    <Section
+      id="future"
+      index="13"
+      label="Future Vision"
+      title={
+        <>
+          What this becomes <em className="not-italic text-moss">in three years.</em>
+        </>
+      }
       className="bg-card/40"
     >
-      <div className="grid gap-px overflow-hidden rounded-sm bg-bone/5 md:grid-cols-3">
-        {future.map((f, i) => (
+      <div className="-mt-8 space-y-12">
+
+        {/* Intro */}
+        <div className="max-w-3xl">
+          <p className="text-lg leading-relaxed text-fog md:text-xl">
+            The system evolves from response and cleanup into a wider intelligence
+            platform — combining detection, regional coordination, forecasting,
+            and public reporting.
+          </p>
+        </div>
+
+        {/* Main Layout */}
+        <div className="grid gap-6 -mt-8 lg:grid-cols-[1fr_1.2fr]">
+
+          {/* Left hero panel */}
           <motion.div
-            key={f.t}
-            initial={{ opacity: 0 }}
-            whileInView={{ opacity: 1 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.5, delay: i * 0.06 }}
-            className="group relative bg-card p-8"
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: "-80px" }}
+            transition={{ duration: 0.6 }}
+            className="rounded-sm border border-moss/20 bg-moss/5 p-8"
           >
-            <Sparkles className="h-5 w-5 text-moss opacity-60 transition-opacity group-hover:opacity-100" />
-            <h3 className="mt-6 font-display text-2xl font-light text-bone">{f.t}</h3>
-            <p className="mt-2 text-sm text-fog">{f.b}</p>
-            <ArrowRight className="absolute bottom-6 right-6 h-4 w-4 text-moss opacity-0 transition-all group-hover:translate-x-1 group-hover:opacity-100" />
+            <div className="font-mono text-xs uppercase tracking-[0.25em] text-moss">
+              Three-year outcome
+            </div>
+
+            <h3 className="mt-4 max-w-xl font-display text-4xl text-bone md:text-5xl">
+              From single-site detection to regional environmental intelligence.
+            </h3>
+
+            <p className="mt-4 max-w-xl text-lg leading-relaxed text-fog">
+              Future capability is not just more monitoring. It is a connected
+              operating model where councils can see trends, compare hotspots,
+              and act earlier with better evidence.
+            </p>
+
+            <div className="mt-4 grid gap-4 sm:grid-cols-2">
+              <div className="rounded-sm border border-bone/10 bg-background/20 p-5">
+                <div className="font-mono text-[10px] uppercase tracking-[0.2em] text-moss">
+                  Visibility
+                </div>
+                <div className="mt-2 text-lg text-bone">
+                  Live hotspot intelligence
+                </div>
+              </div>
+
+              <div className="rounded-sm border border-bone/10 bg-background/20 p-5">
+                <div className="font-mono text-[10px] uppercase tracking-[0.2em] text-moss">
+                  Scale
+                </div>
+                <div className="mt-2 text-lg text-bone">
+                  Regional council network
+                </div>
+              </div>
+
+              <div className="rounded-sm border border-bone/10 bg-background/20 p-5">
+                <div className="font-mono text-[10px] uppercase tracking-[0.2em] text-moss">
+                  Forecast
+                </div>
+                <div className="mt-2 text-lg text-bone">
+                  Risk prediction by season
+                </div>
+              </div>
+
+              <div className="rounded-sm border border-bone/10 bg-background/20 p-5">
+                <div className="font-mono text-[10px] uppercase tracking-[0.2em] text-moss">
+                  Trust
+                </div>
+                <div className="mt-2 text-lg text-bone">
+                  Public outcome reporting
+                </div>
+              </div>
+            </div>
           </motion.div>
-        ))}
+
+          {/* Right roadmap cards */}
+          <div className="grid gap-4 sm:grid-cols-2">
+            {future.map((f, i) => (
+              <motion.div
+                key={f.t}
+                initial={{ opacity: 0, y: 18 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, margin: "-80px" }}
+                transition={{ duration: 0.5, delay: i * 0.05 }}
+                className="group relative rounded-sm border border-bone/10 bg-card p-6"
+              >
+                <div className="flex items-start justify-between gap-4">
+                  <Sparkles className="h-5 w-5 text-moss opacity-60 transition-opacity group-hover:opacity-100" />
+                  <span className="font-mono text-[10px] uppercase tracking-[0.2em] text-moss/60">
+                    0{i + 1}
+                  </span>
+                </div>
+
+                <h3 className="mt-6 font-display text-3xl font-light text-bone">
+                  {f.t}
+                </h3>
+
+                <p className="mt-2 text-md leading-relaxed text-fog">
+                  {f.b}
+                </p>
+
+                <ArrowRight className="absolute bottom-6 right-6 h-4 w-4 text-moss opacity-0 transition-all group-hover:translate-x-1 group-hover:opacity-100" />
+              </motion.div>
+            ))}
+          </div>
+        </div>
+
+        {/* Bottom strip */}
+        
+
       </div>
     </Section>
   );
